@@ -4,10 +4,10 @@
 
 <h1 class="display-4">Gradueringsdiplomgenerator</h1>
 
-<form enctype="multipart/form-data" method="post">
+<form enctype="multipart/form-data" method="post" asp-action="UploadFile">
     <div class="form-group">
         <label for="csv">Csv-fil</label>
-        <input type="file" />
+        <input name="file" type="file" />
     </div>
 
     <input class="btn btn-success" type="submit" value="Upload" />
