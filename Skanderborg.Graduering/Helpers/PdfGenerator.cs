@@ -12,6 +12,8 @@ namespace Skanderborg.Graduering.Helpers
 {
     public class PdfGenerator : IPdfGenerator
     {
+        private const int X = 240;
+        private const int X2 = 235;
         private readonly IWebHostEnvironment _env;
 
         public PdfGenerator(IWebHostEnvironment env)
@@ -46,9 +48,16 @@ namespace Skanderborg.Graduering.Helpers
         {
             var gfx = XGraphics.FromPdfPage(page);
 
-            XFont font = new XFont("Calibri", 14, XFontStyle.Regular);
+            XFont font = new XFont("Calibri", 14, XFontStyle.Bold);
 
-            gfx.DrawString(member.Name, font, XBrushes.Black, new XRect(5, 10, 55, 0));
+            gfx.DrawString(member.Name, font, XBrushes.Black, new XRect(X, 200, 55, 0));
+            gfx.DrawString(member.Birthday.ToString("dd-MM-yyyy"), font, XBrushes.Black, new XRect(X, 221, 55, 0));
+            gfx.DrawString($"{member.Degree} - {graduationDate:dd-MM-yyyy}", font, XBrushes.Black, new XRect(X, 251, 55, 0));
+
+
+            gfx.DrawString(member.Name, font, XBrushes.Black, new XRect(X2, 487, 55, 0));
+            gfx.DrawString(member.Birthday.ToString("dd-MM-yyyy"), font, XBrushes.Black, new XRect(X2, 511, 55, 0));
+            gfx.DrawString($"{member.Degree} - {graduationDate:dd-MM-yyyy}", font, XBrushes.Black, new XRect(X2, 560, 55, 0));
         }
     }
 }
