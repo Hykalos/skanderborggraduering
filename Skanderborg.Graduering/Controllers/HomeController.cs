@@ -63,6 +63,7 @@ namespace Skanderborg.Graduering.Controllers
 
             var filteredMembers = members.Where(m => selectedMembers.Contains(m.Id)).ToArray();
 
+            //TODO: generate pdf and return file
             return View();
         }
 
