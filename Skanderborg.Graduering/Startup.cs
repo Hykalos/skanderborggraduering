@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Skanderborg.Graduering.Helpers;
 using System;
+using System.Reflection;
 
 namespace Skanderborg.Graduering
 {
@@ -28,6 +29,8 @@ namespace Skanderborg.Graduering
             });
 
             services.AddControllersWithViews();
+
+            services.AddAutoMapper(a => a.AllowNullCollections = true, Assembly.GetAssembly(typeof(Startup)));
 
             services.AddSingleton<ICsvReader, CsvReader>();
         }
