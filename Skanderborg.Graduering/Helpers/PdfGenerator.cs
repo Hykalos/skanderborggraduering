@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Hosting;
 using PdfSharp.Drawing;
+using PdfSharp.Fonts;
 using PdfSharp.Pdf;
 using PdfSharp.Pdf.IO;
 using Skanderborg.Graduering.Models;
@@ -19,12 +20,17 @@ namespace Skanderborg.Graduering.Helpers
         public PdfGenerator(IWebHostEnvironment env)
         {
             _env = env ?? throw new ArgumentNullException(nameof(env));
+
+            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
+
+            EZFontResolver fontResolver = EZFontResolver.Get;
+            GlobalFontSettings.FontResolver = fontResolver;
+
+            fontResolver.AddFont("Calibri", XFontStyle.Bold, $"{_env.ContentRootPath}/wwwroot/fonts/calibri-bold.ttf");
         }
 
         public Stream Generate(IEnumerable<Member> members, DateTime graduationDate)
         {
-            Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
-
             var template = PdfReader.Open($"{_env.ContentRootPath}/wwwroot/files/Kupcertifikat.pdf", PdfDocumentOpenMode.Import).Pages[0];
 
             PdfDocument pdf = new PdfDocument();
@@ -48,7 +54,7 @@ namespace Skanderborg.Graduering.Helpers
         {
             var gfx = XGraphics.FromPdfPage(page);
 
-            XFont font = new XFont("Calibri", 14, XFontStyle.Bold);
+            var font = new XFont("Calibri", 14, XFontStyle.Bold);
 
             gfx.DrawString(member.Name, font, XBrushes.Black, new XRect(X, 200, 55, 0));
             gfx.DrawString(member.Birthday.ToString("dd-MM-yyyy"), font, XBrushes.Black, new XRect(X, 221, 55, 0));
