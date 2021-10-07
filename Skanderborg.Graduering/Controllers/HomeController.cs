@@ -4,12 +4,7 @@ using Microsoft.Extensions.Logging;
 using Skanderborg.Graduering.Helpers;
 using Skanderborg.Graduering.Models;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Skanderborg.Graduering.Controllers
 {

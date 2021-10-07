@@ -1,5 +1,3 @@
-using System;
-
 namespace Skanderborg.Graduering.Models
 {
     public class ErrorViewModel
