@@ -17,12 +17,14 @@ namespace Skanderborg.Graduering.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly ICsvReader _csvReader;
         private readonly IMapper _mapper;
+        private readonly IPdfGenerator _generator;
 
-        public HomeController(ILogger<HomeController> logger, ICsvReader csvReader, IMapper mapper)
+        public HomeController(ILogger<HomeController> logger, ICsvReader csvReader, IMapper mapper, IPdfGenerator generator)
         {
             _logger = logger;
             _csvReader = csvReader ?? throw new ArgumentNullException(nameof(csvReader));
             _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            _generator = generator ?? throw new ArgumentNullException(nameof(generator));
         }
 
         [HttpGet]
@@ -54,7 +56,7 @@ namespace Skanderborg.Graduering.Controllers
             return View(members);
         }
 
-        public IActionResult GeneratePdf(IEnumerable<Guid> selectedMembers, DateTime graduationDate)
+        public IActionResult GeneratePdf(IEnumerable<Guid> selectedMembers, IEnumerable<string> selectedDegrees, DateTime graduationDate)
         {
             var members = GetMembersFromSession();
 
@@ -63,8 +65,16 @@ namespace Skanderborg.Graduering.Controllers
 
             var filteredMembers = members.Where(m => selectedMembers.Contains(m.Id)).ToArray();
 
-            //TODO: generate pdf and return file
-            return View();
+            var mappedMembers = _mapper.Map<IEnumerable<Member>>(filteredMembers);
+
+            foreach(var mappedMember in mappedMembers)
+            {
+                mappedMember.Degree = selectedDegrees.First(d => Guid.Parse(d.Split(';')[0]) == mappedMember.Id).Split(';')[1];
+            }
+
+            var stream = _generator.Generate(mappedMembers, graduationDate);
+
+            return File(stream, "application/pdf", "Certifikater.pdf");
         }
 
         public IActionResult Privacy()

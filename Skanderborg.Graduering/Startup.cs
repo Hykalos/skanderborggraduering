@@ -23,7 +23,7 @@ namespace Skanderborg.Graduering
         {
             services.AddSession(options =>
             {
-                options.IdleTimeout = TimeSpan.FromSeconds(10);
+                options.IdleTimeout = TimeSpan.FromMinutes(30);
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
@@ -33,6 +33,7 @@ namespace Skanderborg.Graduering
             services.AddAutoMapper(a => a.AllowNullCollections = true, Assembly.GetAssembly(typeof(Startup)));
 
             services.AddSingleton<ICsvReader, CsvReader>();
+            services.AddSingleton<IPdfGenerator, PdfGenerator>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

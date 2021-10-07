@@ -4,6 +4,22 @@
 @model IEnumerable<CsvMember>
 @{
     ViewData["Title"] = "Vælg medlemmer";
+
+    string[] degrees = new[]
+            {
+        "1. kup",
+        "2. kup",
+        "3. kup",
+        "4. kup",
+        "5. kup",
+        "6. kup",
+        "7. kup",
+        "8. kup",
+        "9. kup",
+        "10. kup",
+        "Overgangsgrad.",
+        "5. kup overg."
+    };
 }
 
 <h1>Vælg medlemmer</h1>
@@ -16,12 +32,23 @@
 
     @foreach(var member in Model)
     {
-        <div class="form-check">
-            <input class="form-check-input" type="checkbox" id="@member.Id.ToString()" name="selectedMembers" value="@member.Id.ToString()" />
-            <label class="form-check-label" for="@member.Id.ToString()">
-                @member.Name
-            </label>
+        <div class="row">
+            <div class="col">
+                <input class="form-check-input" type="checkbox" id="@member.Id.ToString()" name="selectedMembers" value="@member.Id.ToString()" />
+                <label class="form-check-label" for="@member.Id.ToString()">
+                    @member.Name
+                </label>
+            </div>
+            <div class="col">
+                <select class="form-control" name="selectedDegrees">
+                    @foreach(var degree in degrees)
+                    {
+                        <option value="@member.Id.ToString();@degree">@degree</option>
+                    }
+                </select>
+            </div>
         </div>
+        <hr />
     }
 
     <input type="submit" class="btn btn-success" value="Lav diplomer" />
