@@ -4,7 +4,6 @@ using Microsoft.Extensions.Logging;
 using Skanderborg.Graduering.Helpers;
 using Skanderborg.Graduering.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.Json;
