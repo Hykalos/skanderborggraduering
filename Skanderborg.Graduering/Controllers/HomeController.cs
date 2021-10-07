@@ -4,7 +4,10 @@ using Microsoft.Extensions.Logging;
 using Skanderborg.Graduering.Helpers;
 using Skanderborg.Graduering.Models;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Diagnostics;
+using System.Text.Json;
 
 namespace Skanderborg.Graduering.Controllers
 {
@@ -29,11 +32,25 @@ namespace Skanderborg.Graduering.Controllers
         public IActionResult UploadFile(IFormFile file)
         {
             if (file == null)
-                return Redirect("/");
+                return RedirectToAction(nameof(Index));
 
             var members = _csvReader.GetMembers(file);
 
-            return View();
+            HttpContext.Session.SetString("GraduationMembers", JsonSerializer.Serialize(members));
+
+            return RedirectToAction(nameof(MemberSelect));
+        }
+
+        public IActionResult MemberSelect()
+        {
+            var membersString = HttpContext.Session.GetString("GraduationMembers");
+
+            if (string.IsNullOrWhiteSpace(membersString))
+                return RedirectToAction(nameof(Index));
+
+            var members = JsonSerializer.Deserialize<IEnumerable<CsvMember>>(membersString);
+
+            return View(members);
         }
 
         public IActionResult Privacy()
