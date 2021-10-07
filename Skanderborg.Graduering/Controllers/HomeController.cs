@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Skanderborg.Graduering.Helpers;
@@ -14,11 +15,13 @@ namespace Skanderborg.Graduering.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly ICsvReader _csvReader;
+        private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger, ICsvReader csvReader)
+        public HomeController(ILogger<HomeController> logger, ICsvReader csvReader, IMapper mapper)
         {
             _logger = logger;
             _csvReader = csvReader ?? throw new ArgumentNullException(nameof(csvReader));
+            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
         }
 
         [HttpGet]
