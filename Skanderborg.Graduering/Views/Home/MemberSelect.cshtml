@@ -8,11 +8,21 @@
 
 <h1>Vælg medlemmer</h1>
 
-<table>
+<form asp-action="GeneratePdf">
+    <div class="form-group">
+        <label for="graduation-date">Gradueringsdato</label>
+        <input type="date" name="graduationDate" id="graduation-date" required />
+    </div>
+
     @foreach(var member in Model)
     {
-        <tr>
-            <td>@member.Name</td>
-        </tr>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" id="@member.Id.ToString()" name="selectedMembers" value="@member.Id.ToString()" />
+            <label class="form-check-label" for="@member.Id.ToString()">
+                @member.Name
+            </label>
+        </div>
     }
-</table>
+
+    <input type="submit" class="btn btn-success" value="Lav diplomer" />
+</form>
