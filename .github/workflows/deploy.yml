@@ -28,9 +28,6 @@ jobs:
     - name: Build
       run: dotnet build Skanderborg.Graduering.sln --configuration Release --no-restore --output ./output
 
-    - name: Move files
-      run: mv ./output/wwwroot/* ./output
-
     - name: 'Deploy to Azure WebApp'
       uses: azure/webapps-deploy@0b651ed7546ecfc75024011f76944cb9b381ef1e
       with:
