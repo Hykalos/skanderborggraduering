@@ -1,4 +1,10 @@
-var builder = WebApplication.CreateBuilder(args);
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    ApplicationName = typeof(Program).Assembly.FullName,
+    ContentRootPath = Path.GetFullPath(Directory.GetCurrentDirectory()),
+    WebRootPath = "wwwroot",
+    Args = args
+});
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -9,7 +15,7 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-builder.Services.AddAutoMapper(a => a.AllowNullCollections = true, Assembly.GetAssembly(typeof(CsvReader)));
+builder.Services.AddAutoMapper(a => a.AllowNullCollections = true, Assembly.GetAssembly(typeof(Program)));
 
 builder.Services.AddSingleton<ICsvReader, CsvReader>();
 builder.Services.AddSingleton<IPdfGenerator, PdfGenerator>();
