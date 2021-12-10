@@ -1,9 +1,10 @@
-﻿namespace Skanderborg.Graduering.Profiles;
-
-public class MemberProfile : Profile
+﻿namespace Skanderborg.Graduering.Profiles
 {
-    public MemberProfile()
+    public class MemberProfile : Profile
     {
-        CreateMap<CsvMember, Member>();
+        public MemberProfile()
+        {
+            CreateMap<CsvMember, Member>();
+        }
     }
 }
