@@ -1,6 +1,11 @@
-﻿namespace Skanderborg.Graduering.Helpers;
+﻿using Microsoft.AspNetCore.Http;
+using Skanderborg.Graduering.Models;
+using System.Collections.Generic;
 
-public interface ICsvReader
+namespace Skanderborg.Graduering.Helpers
 {
-    IEnumerable<CsvMember> GetMembers(IFormFile file);
+    public interface ICsvReader
+    {
+        IEnumerable<CsvMember> GetMembers(IFormFile file);
+    }
 }

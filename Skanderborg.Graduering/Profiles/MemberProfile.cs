@@ -1,9 +1,13 @@
-﻿namespace Skanderborg.Graduering.Profiles;
+﻿using AutoMapper;
+using Skanderborg.Graduering.Models;
 
-public class MemberProfile : Profile
+namespace Skanderborg.Graduering.Profiles
 {
-    public MemberProfile()
+    public class MemberProfile : Profile
     {
-        CreateMap<CsvMember, Member>();
+        public MemberProfile()
+        {
+            CreateMap<CsvMember, Member>();
+        }
     }
 }
