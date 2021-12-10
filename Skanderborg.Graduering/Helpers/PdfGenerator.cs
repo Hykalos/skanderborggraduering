@@ -1,4 +1,15 @@
-﻿namespace Skanderborg.Graduering.Helpers
+﻿using Microsoft.AspNetCore.Hosting;
+using PdfSharp.Drawing;
+using PdfSharp.Fonts;
+using PdfSharp.Pdf;
+using PdfSharp.Pdf.IO;
+using Skanderborg.Graduering.Models;
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Text;
+
+namespace Skanderborg.Graduering.Helpers
 {
     public class PdfGenerator : IPdfGenerator
     {

@@ -1,4 +1,6 @@
-﻿namespace Skanderborg.Graduering.Models
+﻿using System;
+
+namespace Skanderborg.Graduering.Models
 {
     public class Member
     {

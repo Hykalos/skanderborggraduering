@@ -1,4 +1,10 @@
-﻿namespace Skanderborg.Graduering.Helpers
+﻿using System;
+using System.Collections.Generic;
+using System.IO;
+using PdfSharp.Drawing;
+using PdfSharp.Fonts;
+
+namespace Skanderborg.Graduering.Helpers
 {
     /// <summary>
     /// EZFontResolver is a generic font resolver for PDFsharp.

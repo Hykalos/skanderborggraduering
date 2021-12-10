@@ -1,4 +1,12 @@
-﻿namespace Skanderborg.Graduering.Helpers
+﻿using Microsoft.AspNetCore.Http;
+using Skanderborg.Graduering.Models;
+using System;
+using System.Collections.Generic;
+using System.Globalization;
+using System.IO;
+using System.Text;
+
+namespace Skanderborg.Graduering.Helpers
 {
     public class CsvReader : ICsvReader
     {

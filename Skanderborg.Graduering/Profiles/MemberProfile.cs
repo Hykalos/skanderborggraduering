@@ -1,4 +1,7 @@
-﻿namespace Skanderborg.Graduering.Profiles
+﻿using AutoMapper;
+using Skanderborg.Graduering.Models;
+
+namespace Skanderborg.Graduering.Profiles
 {
     public class MemberProfile : Profile
     {
