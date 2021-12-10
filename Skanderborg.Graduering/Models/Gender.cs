@@ -1,8 +1,7 @@
-﻿namespace Skanderborg.Graduering.Models
+﻿namespace Skanderborg.Graduering.Models;
+
+public enum Gender
 {
-    public enum Gender
-    {
-        Female,
-        Male
-    }
+    Female,
+    Male
 }
