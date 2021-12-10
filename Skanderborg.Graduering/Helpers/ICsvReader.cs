@@ -1,7 +1,6 @@
-﻿namespace Skanderborg.Graduering.Helpers
+﻿namespace Skanderborg.Graduering.Helpers;
+
+public interface ICsvReader
 {
-    public interface ICsvReader
-    {
-        IEnumerable<CsvMember> GetMembers(IFormFile file);
-    }
+    IEnumerable<CsvMember> GetMembers(IFormFile file);
 }
