@@ -1,7 +1,6 @@
-﻿namespace Skanderborg.Graduering.Helpers
+﻿namespace Skanderborg.Graduering.Helpers;
+
+public interface IPdfGenerator
 {
-    public interface IPdfGenerator
-    {
-        Stream Generate(IEnumerable<Member> members, DateTime graduationDate);
-    }
+    Stream Generate(IEnumerable<Member> members, DateTime graduationDate);
 }
