@@ -1,12 +1,3 @@
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
-using Skanderborg.Graduering.Helpers;
-using System;
-using System.Reflection;
-
 namespace Skanderborg.Graduering
 {
     public class Startup

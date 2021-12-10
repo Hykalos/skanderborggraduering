@@ -1,16 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using Skanderborg.Graduering.Helpers;
-using Skanderborg.Graduering.Models;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Text.Json;
-
-namespace Skanderborg.Graduering.Controllers
+﻿namespace Skanderborg.Graduering.Controllers
 {
     public class HomeController : Controller
     {
