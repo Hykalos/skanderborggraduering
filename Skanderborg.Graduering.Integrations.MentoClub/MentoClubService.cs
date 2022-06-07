@@ -21,17 +21,16 @@ public sealed class MentoClubService : IMemberSystemService
 
     public async Task<string> GetMemberExportCsv(string username, string password)
     {
-        var cookie = await GetApplicationCookie(username, password);
+        await Login(username, password);
 
-        throw new NotImplementedException();
+        var csv = await GetCsv();
+
+        return csv;
     }
 
-    private async Task<string> GetApplicationCookie(string username, string password)
+    private async Task Login(string username, string password)
     {
-        var request = new HttpRequestMessage(HttpMethod.Post, "login/login");
-        request.Headers.Add("Accept", "*/*");
-        request.Headers.Add("Accept-Encoding", "gzip, defaulte, br");
-        request.Headers.Add("Connection", "keep-alive");
+        var request = GetRequestMessage(HttpMethod.Post, "login/login");
         request.Content = new FormUrlEncodedContent(new Dictionary<string, string>
         {
             {
@@ -45,8 +44,28 @@ public sealed class MentoClubService : IMemberSystemService
             }
         });
 
+        await _httpClient.SendAsync(request);
+    }
+
+    private async Task<string> GetCsv()
+    {
+        var request = GetRequestMessage(HttpMethod.Post, "members/export");
+        request.Content = new StringContent(
+            "ExportMemberID=true&ExportMemberID=false&ExportParent=true&ExportParent=false&ExportTeams=true&ExportTeams=false&ExportPaymentGroups=true&ExportPaymentGroups=false&ExportCreditCardStatus=true&ExportCreditCardStatus=false&ExportEmail=true&ExportEmail=false&ExportAge=true&ExportAge=false&ExportSex=true&ExportSex=false&ExportBirthday=true&ExportBirthday=false&ExportCreatedDate=true&ExportCreatedDate=false&ExportLatestTraining=true&ExportLatestTraining=false&ExportAddress=true&ExportAddress=false&ExportZip=true&ExportZip=false&ExportCity=true&ExportCity=false&ExportMunicipality=true&ExportMunicipality=false&ExportCountry=true&ExportCountry=false&ExportPhone=true&ExportPhone=false&ExportRank=true&ExportRank=false&ExportRankDate=true&ExportRankDate=false&ExportRankChangedBy=true&ExportRankChangedBy=false&ExportPassportNumber=true&ExportPassportNumber=false&ExportNote=true&ExportNote=false&IncludeInactive=false",
+            System.Text.Encoding.UTF8,
+            "application/x-www-form-urlencoded");
+
         var response = await _httpClient.SendAsync(request);
 
-        return _cookieContainer.GetAllCookies()[".AspNet.ApplicationCookie"]?.Value ?? string.Empty;
+        return await response.Content.ReadAsStringAsync();
+    }
+
+    private static HttpRequestMessage GetRequestMessage(HttpMethod method, string path)
+    {
+        var request = new HttpRequestMessage(method, path);
+        request.Headers.Add("Accept", "*/*");
+        request.Headers.Add("Connection", "keep-alive");
+
+        return request;
     }
 }
