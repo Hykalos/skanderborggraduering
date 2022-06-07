@@ -1,10 +1,4 @@
-var builder = WebApplication.CreateBuilder(new WebApplicationOptions
-{
-    ApplicationName = typeof(Program).Assembly.FullName,
-    ContentRootPath = Path.GetFullPath(Directory.GetCurrentDirectory()),
-    WebRootPath = "wwwroot",
-    Args = args
-});
+var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
@@ -17,8 +11,13 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddAutoMapper(a => a.AllowNullCollections = true, Assembly.GetAssembly(typeof(Program)));
 
+builder.Services.AddSingleton<MentoClubConfiguration>((serviceProvider) => new MentoClubConfiguration
+{
+    BaseUrl = builder.Configuration.GetValue<string>("MentoClubUrl")
+});
 builder.Services.AddSingleton<ICsvReader, CsvReader>();
 builder.Services.AddSingleton<IPdfGenerator, PdfGenerator>();
+builder.Services.AddTransient<IMemberSystemService, MentoClubService>();
 
 var app = builder.Build();
 
