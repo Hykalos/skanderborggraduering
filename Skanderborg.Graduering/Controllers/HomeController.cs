@@ -28,7 +28,9 @@ public class HomeController : Controller
     {
         var membersCsv = await _memberSystemService.GetMemberExportCsv(loginDto.Username, loginDto.Password);
 
-        // TODO: save members in session
+        var members = _csvReader.GetMembers(membersCsv);
+
+        HttpContext.Session.SetString("GraduationMembers", JsonSerializer.Serialize(members));
 
         return RedirectToAction(nameof(MemberSelect));
     }

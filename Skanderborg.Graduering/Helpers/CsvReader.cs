@@ -1,4 +1,6 @@
-﻿namespace Skanderborg.Graduering.Helpers;
+﻿using System.Text.RegularExpressions;
+
+namespace Skanderborg.Graduering.Helpers;
 
 public class CsvReader : ICsvReader
 {
@@ -30,7 +32,6 @@ public class CsvReader : ICsvReader
     {
         StreamReader reader;
         List<string> lines = new List<string>();
-        List<CsvMember> members = new List<CsvMember>();
 
         using (var stream = new MemoryStream())
         {
@@ -46,10 +47,25 @@ public class CsvReader : ICsvReader
             }
         }
 
+        return GetMembers(lines);
+    }
+
+    public IEnumerable<CsvMember> GetMembers(string file)
+    {
+        string parsedString = Regex.Unescape(file);
+        byte[] isoBites = Encoding.GetEncoding("ISO-8859-1").GetBytes(parsedString);
+        var actualString = Encoding.UTF8.GetString(isoBites, 0, isoBites.Length);
+
+        return GetMembers(actualString.Split("\r\n").Where(line => !string.IsNullOrWhiteSpace(line)).ToList());
+    }
+
+    private IEnumerable<CsvMember> GetMembers(List<string> lines)
+    {
+        var members = new List<CsvMember>();
         var headerIndices = GetIndices(lines[0]);
 
         //Skip first line as it's the headers
-        for(var i = 1; i < lines.Count; ++i)
+        for (var i = 1; i < lines.Count; ++i)
         {
             members.Add(ReadMember(lines[i], headerIndices));
         }
