@@ -64,7 +64,10 @@ public sealed class MentoClubService : IMemberSystemService
 
         while (reader.Peek() >= 0)
         {
-            lines.Add(reader.ReadLine());
+            var line = reader.ReadLine();
+
+            if(!string.IsNullOrWhiteSpace(line))
+                lines.Add(line);
         }
 
         return string.Join("\r\n", lines);
