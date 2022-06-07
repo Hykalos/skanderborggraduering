@@ -57,7 +57,17 @@ public sealed class MentoClubService : IMemberSystemService
 
         var response = await _httpClient.SendAsync(request);
 
-        return await response.Content.ReadAsStringAsync();
+        var stream = await response.Content.ReadAsStreamAsync();
+
+        StreamReader reader = new StreamReader(stream, Encoding.GetEncoding("iso-8859-1"));
+        List<string> lines = new List<string>();
+
+        while (reader.Peek() >= 0)
+        {
+            lines.Add(reader.ReadLine());
+        }
+
+        return string.Join("\r\n", lines);
     }
 
     private static HttpRequestMessage GetRequestMessage(HttpMethod method, string path)

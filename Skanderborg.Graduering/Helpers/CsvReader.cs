@@ -1,6 +1,4 @@
-﻿using System.Text.RegularExpressions;
-
-namespace Skanderborg.Graduering.Helpers;
+﻿namespace Skanderborg.Graduering.Helpers;
 
 public class CsvReader : ICsvReader
 {
@@ -50,14 +48,7 @@ public class CsvReader : ICsvReader
         return GetMembers(lines);
     }
 
-    public IEnumerable<CsvMember> GetMembers(string file)
-    {
-        string parsedString = Regex.Unescape(file);
-        byte[] isoBites = Encoding.GetEncoding("ISO-8859-1").GetBytes(parsedString);
-        var actualString = Encoding.UTF8.GetString(isoBites, 0, isoBites.Length);
-
-        return GetMembers(actualString.Split("\r\n").Where(line => !string.IsNullOrWhiteSpace(line)).ToList());
-    }
+    public IEnumerable<CsvMember> GetMembers(string file) => GetMembers(file.Split("\r\n").Where(line => !string.IsNullOrWhiteSpace(line)).ToList());
 
     private IEnumerable<CsvMember> GetMembers(List<string> lines)
     {
