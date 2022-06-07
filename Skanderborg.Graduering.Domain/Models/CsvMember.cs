@@ -1,4 +1,4 @@
-﻿namespace Skanderborg.Graduering.Models;
+﻿namespace Skanderborg.Graduering.Domain.Models;
 
 public class CsvMember
 {

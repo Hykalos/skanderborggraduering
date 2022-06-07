@@ -5,20 +5,32 @@ public class HomeController : Controller
     private readonly ILogger<HomeController> _logger;
     private readonly ICsvReader _csvReader;
     private readonly IMapper _mapper;
+    private readonly IMemberSystemService _memberSystemService;
     private readonly IPdfGenerator _generator;
 
-    public HomeController(ILogger<HomeController> logger, ICsvReader csvReader, IMapper mapper, IPdfGenerator generator)
+    public HomeController(ILogger<HomeController> logger, ICsvReader csvReader, IMapper mapper, IMemberSystemService memberSystemService, IPdfGenerator generator)
     {
         _logger = logger;
-        _csvReader = csvReader ?? throw new ArgumentNullException(nameof(csvReader));
-        _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
-        _generator = generator ?? throw new ArgumentNullException(nameof(generator));
+        _csvReader = csvReader;
+        _mapper = mapper;
+        _memberSystemService = memberSystemService;
+        _generator = generator;
     }
 
     [HttpGet]
     public IActionResult Index()
     {
         return View();
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> LoginAndFetchFile(LoginDto loginDto)
+    {
+        var membersCsv = await _memberSystemService.GetMemberExportCsv(loginDto.Username, loginDto.Password);
+
+        // TODO: save members in session
+
+        return RedirectToAction(nameof(MemberSelect));
     }
 
     [HttpPost]

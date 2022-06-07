@@ -1,0 +1,1 @@
+﻿global using Skanderborg.Graduering.Domain.Services;
