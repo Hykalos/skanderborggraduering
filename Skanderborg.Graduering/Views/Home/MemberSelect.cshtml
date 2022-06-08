@@ -81,21 +81,33 @@
 
 @section scripts {
     <script type="text/javascript">
-        $(function() {
-            $('#team-filter').on('change', function() {
-                var memberRows = $('.member-row');
-                var selectedValue = this.value;
+        let teamFilter = function(memberRow, teamFilterValue) {
+            return teamFilterValue === '' || memberRow.data("team").includes(teamFilterValue);
+        }
 
-                $.each(memberRows, function(i, val) {
-                    var memberRow = $(this);
+        let nameFilter = function(memberRow, nameFilterValue) {
+            return nameFilterValue === '' || memberRow.data('name').includes(nameFilterValue);
+        }
 
-                    if (selectedValue === '' || memberRow.data("team").includes(selectedValue))
-                        memberRow.show();
+        let filter = function() {
+            var memberRows = $('.member-row');
+            var teamFilterValue = $('#team-filter').val();
+            var nameFilterValue = $('#name-filter').val();
 
-                    else
-                        memberRow.hide();
-                });
+            $.each(memberRows, function() {
+                var memberRow = $(this);
+
+                if (teamFilter(memberRow, teamFilterValue) && nameFilter(memberRow, nameFilterValue))
+                    memberRow.show();
+                else
+                    memberRow.hide();
             });
+        }
+
+        $(function() {
+            $('#team-filter').on('change', filter);
+
+            $('#name-filter').on('keyup', filter);
         });
     </script>
 }
