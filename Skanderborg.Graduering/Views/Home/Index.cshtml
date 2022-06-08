@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+@model bool
 
 <h1 class="display-4">Gradueringsdiplomgenerator</h1>
 
@@ -16,6 +17,15 @@
 </form>
 
 <h2>Login</h2>
+
+@if(Model)
+{
+    <div class="alert alert-warning" role="alert">
+        Dit login var enten forkert eller har ikke rettigheder til at se og eksportere medlemslisten
+    </div>
+}
+
+
 <form method="post" asp-action="LoginAndFetchFile">
     <div class="form-group">
         <label for="username">Brugernavn</label>
