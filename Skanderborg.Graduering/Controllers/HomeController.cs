@@ -20,13 +20,18 @@ public class HomeController : Controller
     [HttpGet]
     public IActionResult Index()
     {
-        return View();
+        var error = "InvalidLogin".Equals(Request.Query["Error"]);
+
+        return View(error);
     }
 
     [HttpPost]
     public async Task<IActionResult> LoginAndFetchFile(LoginDto loginDto)
     {
         var membersCsv = await _memberSystemService.GetMemberExportCsv(loginDto.Username, loginDto.Password);
+
+        if (string.IsNullOrWhiteSpace(membersCsv))
+            return RedirectToAction(nameof(Index), new { Error = "InvalidLogin" });
 
         var members = _csvReader.GetMembers(membersCsv);
 
