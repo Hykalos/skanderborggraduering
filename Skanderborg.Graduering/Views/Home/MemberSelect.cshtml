@@ -54,24 +54,48 @@
 
     @foreach(var member in Model)
     {
-        <div class="row member-row" data-team="@string.Join(',', member.Teams)" data-name="@member.Name">
-            <div class="col">
-                <input class="form-check-input" type="checkbox" id="@member.Id.ToString()" name="selectedMembers" value="@member.Id.ToString()" />
-                <label class="form-check-label" for="@member.Id.ToString()">
-                    @member.Name
-                </label>
+        <div class="member-row" data-team="@string.Join(',', member.Teams)" data-name="@member.Name">
+            <div class="row">
+                <div class="col">
+                    <input class="form-check-input" type="checkbox" id="@member.Id.ToString()" name="selectedMembers" value="@member.Id.ToString()" />
+                    <label class="form-check-label" for="@member.Id.ToString()">
+                        @member.Name
+                    </label>
+                </div>
+                <div class="col">
+                    <select class="form-control" name="selectedDegrees">
+                        @foreach(var degree in degrees)
+                        {
+                            <option value="@member.Id.ToString();@degree">@degree</option>
+                        }
+                    </select>
+                </div>
             </div>
-            <div class="col">
-                <select class="form-control" name="selectedDegrees">
-                    @foreach(var degree in degrees)
-                    {
-                        <option value="@member.Id.ToString();@degree">@degree</option>
-                    }
-                </select>
-            </div>
+
+            <hr />
         </div>
-        <hr />
     }
 
     <input type="submit" class="btn btn-success" value="Lav diplomer" />
 </form>
+
+@section scripts {
+    <script type="text/javascript">
+        $(function() {
+            $('#team-filter').on('change', function() {
+                var memberRows = $('.member-row');
+                var selectedValue = this.value;
+
+                $.each(memberRows, function(i, val) {
+                    var memberRow = $(this);
+
+                    if (selectedValue === '' || memberRow.data("team").includes(selectedValue))
+                        memberRow.show();
+
+                    else
+                        memberRow.hide();
+                });
+            });
+        });
+    </script>
+}
