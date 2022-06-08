@@ -30,26 +30,84 @@
         <input type="date" name="graduationDate" id="graduation-date" required />
     </div>
 
+    <h2>Filters</h2>
+
+    <div class="row">
+        <div class="col">
+            <label for="team-filter">Hold</label>
+            <select id="team-filter" class="form-control">
+                <option></option>
+                @foreach(var team in Model.SelectMany(member => member.Teams).Select(team => team.Trim()).Distinct().Where(team => !string.IsNullOrWhiteSpace(team)).OrderBy(team => team))
+                {
+                    <option value="@team">@team</option>
+                }
+            </select>
+        </div>
+
+        <div class="col">
+            <label for="name-filter">Navn</label>
+            <input type="text" class="form-control" id="name-filter" placeholder="Filtrer på navn" />
+        </div>
+    </div>
+
+    <h2>Medlemsliste</h2>
+
     @foreach(var member in Model)
     {
-        <div class="row">
-            <div class="col">
-                <input class="form-check-input" type="checkbox" id="@member.Id.ToString()" name="selectedMembers" value="@member.Id.ToString()" />
-                <label class="form-check-label" for="@member.Id.ToString()">
-                    @member.Name
-                </label>
+        <div class="member-row" data-team="@string.Join(',', member.Teams)" data-name="@member.Name">
+            <div class="row">
+                <div class="col">
+                    <input class="form-check-input" type="checkbox" id="@member.Id.ToString()" name="selectedMembers" value="@member.Id.ToString()" />
+                    <label class="form-check-label" for="@member.Id.ToString()">
+                        @member.Name
+                    </label>
+                </div>
+                <div class="col">
+                    <select class="form-control" name="selectedDegrees">
+                        @foreach(var degree in degrees)
+                        {
+                            <option value="@member.Id.ToString();@degree">@degree</option>
+                        }
+                    </select>
+                </div>
             </div>
-            <div class="col">
-                <select class="form-control" name="selectedDegrees">
-                    @foreach(var degree in degrees)
-                    {
-                        <option value="@member.Id.ToString();@degree">@degree</option>
-                    }
-                </select>
-            </div>
+
+            <hr />
         </div>
-        <hr />
     }
 
     <input type="submit" class="btn btn-success" value="Lav diplomer" />
 </form>
+
+@section scripts {
+    <script type="text/javascript">
+        let teamFilter = function(memberRow, teamFilterValue) {
+            return teamFilterValue === '' || memberRow.data("team").includes(teamFilterValue);
+        }
+
+        let nameFilter = function(memberRow, nameFilterValue) {
+            return nameFilterValue === '' || memberRow.data('name').includes(nameFilterValue);
+        }
+
+        let filter = function() {
+            var memberRows = $('.member-row');
+            var teamFilterValue = $('#team-filter').val();
+            var nameFilterValue = $('#name-filter').val();
+
+            $.each(memberRows, function() {
+                var memberRow = $(this);
+
+                if (teamFilter(memberRow, teamFilterValue) && nameFilter(memberRow, nameFilterValue))
+                    memberRow.show();
+                else
+                    memberRow.hide();
+            });
+        }
+
+        $(function() {
+            $('#team-filter').on('change', filter);
+
+            $('#name-filter').on('keyup', filter);
+        });
+    </script>
+}
