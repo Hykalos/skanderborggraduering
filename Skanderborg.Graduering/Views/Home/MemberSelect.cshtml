@@ -86,7 +86,7 @@
         }
 
         let nameFilter = function(memberRow, nameFilterValue) {
-            return nameFilterValue === '' || memberRow.data('name').includes(nameFilterValue);
+            return nameFilterValue === '' || memberRow.data('name').toLowerCase().includes(nameFilterValue.toLowerCase());
         }
 
         let filter = function() {
