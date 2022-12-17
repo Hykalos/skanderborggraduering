@@ -14,10 +14,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - name: Setup .NET SDK 6
+      - name: Setup .NET SDK 7
         uses: actions/setup-dotnet@v1.7.2
         with:
-          dotnet-version: '6.0.x'
+          dotnet-version: '7.0.x'
 
       - name: Clean
         run: dotnet clean Skanderborg.Graduering.sln --configuration Release && dotnet nuget locals all --clear
