@@ -10,7 +10,6 @@
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="PDFsharpNetStandard2" Version="1.51.4845" />
-    <PackageReference Include="System.Drawing.Common" Version="8.0.7" />
   </ItemGroup>
 
   <ItemGroup>
