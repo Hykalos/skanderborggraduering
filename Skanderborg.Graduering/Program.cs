@@ -13,7 +13,7 @@ builder.Services.AddAutoMapper(a => a.AllowNullCollections = true, Assembly.GetA
 
 builder.Services.AddSingleton<MentoClubConfiguration>((serviceProvider) => new MentoClubConfiguration
 {
-    BaseUrl = builder.Configuration.GetValue<string>("MentoClubUrl")
+    BaseUrl = builder.Configuration.GetValue<string>("MentoClubUrl") ?? throw new KeyNotFoundException("MentoClubUrl was not set in the app settings")
 });
 builder.Services.AddSingleton<ICsvReader, CsvReader>();
 builder.Services.AddSingleton<IPdfGenerator, PdfGenerator>();
@@ -38,11 +38,8 @@ app.UseAuthorization();
 
 app.UseSession();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
-});
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.Run();

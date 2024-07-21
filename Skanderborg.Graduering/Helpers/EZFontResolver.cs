@@ -18,7 +18,7 @@ public class EZFontResolver : IFontResolver
     {
         get { return _singleton ?? (_singleton = new EZFontResolver()); }
     }
-    private static EZFontResolver _singleton;
+    private static EZFontResolver _singleton = null!;
 
     /// <summary>
     /// Adds the font passing a filename.
@@ -116,7 +116,7 @@ public class EZFontResolver : IFontResolver
     }
 
     #region IFontResolver
-    public FontResolverInfo ResolveTypeface(string familyName, bool isBold, bool isItalic)
+    public FontResolverInfo? ResolveTypeface(string familyName, bool isBold, bool isItalic)
     {
         string faceName = familyName.ToLower() +
             (isBold ? "|b" : "") +
@@ -130,7 +130,7 @@ public class EZFontResolver : IFontResolver
         return null;
     }
 
-    public byte[] GetFont(string faceName)
+    public byte[]? GetFont(string faceName)
     {
         EZFontInfo item;
         if (_fonts.TryGetValue(faceName, out item))

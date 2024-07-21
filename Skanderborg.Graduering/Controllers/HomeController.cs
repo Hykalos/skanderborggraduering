@@ -70,7 +70,7 @@ public class HomeController : Controller
         if (members == null || selectedMembers == null || !selectedMembers.Any())
             return RedirectToAction(nameof(MemberSelect));
 
-        var filteredMembers = members.Where(m => selectedMembers.Contains(m.Id)).ToArray();
+        var filteredMembers = members.Where(m => selectedMembers.Contains(m?.Id ?? Guid.Empty)).ToArray();
 
         var mappedMembers = _mapper.Map<IEnumerable<Member>>(filteredMembers);
 
@@ -100,10 +100,10 @@ public class HomeController : Controller
         var membersString = HttpContext.Session.GetString("GraduationMembers");
 
         if (string.IsNullOrWhiteSpace(membersString))
-            return null;
+            return Enumerable.Empty<CsvMember>();
 
         var members = JsonSerializer.Deserialize<IEnumerable<CsvMember>>(membersString);
 
-        return members;
+        return members ?? Enumerable.Empty<CsvMember>();
     }
 }

@@ -41,7 +41,7 @@ public class CsvReader : ICsvReader
 
             while (reader.Peek() >= 0)
             {
-                lines.Add(reader.ReadLine());
+                lines.Add(reader.ReadLine() ?? string.Empty);
             }
         }
 
@@ -109,7 +109,9 @@ public class CsvReader : ICsvReader
         };
     }
 
-    private string GetString(string value) => value != null && value.Equals("Ukendt", StringComparison.InvariantCultureIgnoreCase) ? string.Empty : value;
+    private string GetString(string value) => value != null && value.Equals("Ukendt", StringComparison.InvariantCultureIgnoreCase)
+        ? string.Empty
+        : value ?? string.Empty;
 
     private int? GetInteger(string value)
     {
